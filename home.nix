@@ -1,8 +1,13 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 {
   home.username = "gm";
   home.homeDirectory = "/Users/gm";
-  home.stateVersion = "26.05";   # matches home-manager release; don't bump on upgrade
+  home.stateVersion = "26.05"; # matches home-manager release; don't bump on upgrade
 
   # CLI packages (fzf/zoxide/starship/git + zsh plugins come from programs.* below).
   home.packages = with pkgs; [
@@ -11,7 +16,7 @@
     ffmpeg
     gh
     mtr
-    neovim            # config = existing ~/.config/nvim (LazyVim), left writable
+    neovim # config vendored in dotfiles/nvim (symlinked below)
     nodejs
     openvpn
     oxipng
@@ -25,9 +30,9 @@
     ripgrep
     fd
     lazygit
-    pet               # snippet manager (zsh Ctrl+S below)
+    pet # snippet manager (zsh Ctrl+S below)
     just
-    expect            # for the scripted ssh helper scripts
+    expect # for the scripted ssh helper scripts
   ];
 
   # PATH for self-managed tools (uv, opencode, pipx).
@@ -81,8 +86,14 @@
     settings = builtins.fromTOML (builtins.readFile ./starship.toml);
   };
 
-  programs.fzf = { enable = true; enableZshIntegration = true; };
-  programs.zoxide = { enable = true; enableZshIntegration = true; };
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   programs.git = {
     enable = true;
@@ -99,8 +110,14 @@
       init.defaultBranch = "main";
       gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed_signers";
       # gh credential helper, PATH-relative; empty entry resets inherited helpers.
-      credential."https://github.com".helper = [ "" "!gh auth git-credential" ];
-      credential."https://gist.github.com".helper = [ "" "!gh auth git-credential" ];
+      credential."https://github.com".helper = [
+        ""
+        "!gh auth git-credential"
+      ];
+      credential."https://gist.github.com".helper = [
+        ""
+        "!gh auth git-credential"
+      ];
     };
   };
 
@@ -133,8 +150,13 @@
   };
 
   # Vendored configs. Ghostty → Application Support (that path wins over ~/.config on macOS).
-  home.file."Library/Application Support/com.mitchellh.ghostty/config".source = ./dotfiles/ghostty/config;
+  home.file."Library/Application Support/com.mitchellh.ghostty/config".source =
+    ./dotfiles/ghostty/config;
   xdg.configFile."fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
+
+  # nvim (LazyVim): out-of-store symlink so it stays editable and lazy.nvim can write lazy-lock.json.
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/dotfiles/nvim";
 
   # Local verification of my ssh-signed commits.
   home.file.".config/git/allowed_signers".text =

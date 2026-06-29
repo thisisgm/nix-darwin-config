@@ -19,7 +19,7 @@ settings; Homebrew (driven by nix-darwin) installs GUI casks + Mac App Store app
 | `darwin.nix` | nix daemon, macOS defaults, hostname, Touch-ID sudo, fonts |
 | `homebrew.nix` | 14 casks + 7 Mac App Store apps |
 | `home.nix` | packages, zsh, starship, git/ssh, nh, direnv, dotfiles |
-| `dotfiles/` | vendored ghostty + fastfetch configs |
+| `dotfiles/` | vendored ghostty, fastfetch, and nvim (LazyVim) configs |
 | `starship.toml` | prompt (read via `fromTOML`) |
 | `justfile` | `switch` / `update` / `check` / `rollback` |
 
@@ -39,6 +39,6 @@ just rollback  # revert to the previous generation
 5. Put machine-local SSH hosts in `~/.ssh/config.local` (gitignored).
 
 ## Notes
-- **Not in nix (by design):** secrets (1Password), nvim config (LazyVim, kept writable), a few App Store apps.
+- **Not in nix (by design):** secrets (1Password) and a few App Store apps. The nvim config is vendored but symlinked out-of-store so it stays editable.
 - **`cleanup = "zap"`** prunes anything undeclared; every app you keep must be listed in `casks` or `masApps`, or a switch removes it.
 - A broken config fails at *build*, before activation; `just rollback` + Time Machine are the safety nets; Homebrew apps survive a full Nix uninstall.

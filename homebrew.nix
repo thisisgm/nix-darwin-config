@@ -20,7 +20,7 @@
       "claude"
       "proton-mail"
       "ghostty"
-      "tailscale-app"   # GUI cask (`tailscale` is the CLI formula)
+      "tailscale-app" # GUI cask (`tailscale` is the CLI formula)
       "adguard"
       "cyberduck"
       "keka"
