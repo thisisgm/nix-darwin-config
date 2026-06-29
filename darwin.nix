@@ -81,7 +81,18 @@
         "/System/Applications/App Store.app"
         "/System/Applications/System Settings.app"
       ];
-      persistent-others = [ "/Users/gm/Downloads" ];
+      # Downloads with your exact view settings (else a plain path resets them):
+      #   Sort by Date Added · Display as Folder · View content as List
+      persistent-others = [
+        {
+          folder = {
+            path = "/Users/gm/Downloads";
+            arrangement = "date-added";
+            displayas = "folder";
+            showas = "list";
+          };
+        }
+      ];
     };
 
     finder = {
