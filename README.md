@@ -5,6 +5,8 @@ My entire Mac, reproducible from one repo: **nix-darwin + home-manager + flakes*
 settings; Homebrew (driven by nix-darwin) installs GUI casks + Mac App Store apps;
 1Password handles secrets.
 
+![Ghostty terminal with a fastfetch login banner and a tokyonight starship prompt, over a clean Dock](docs/screenshot.png)
+
 ## Highlights
 - **One command rebuilds the machine:** `nh darwin switch` (diff + confirm before activating).
 - **Secrets stay out of git:** 1Password SSH agent + `op`; the repo holds only public keys and `op://` references, so it's safe to publish.
