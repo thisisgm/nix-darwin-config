@@ -30,6 +30,7 @@
     lazygit
     pet               # snippet manager (zsh Ctrl+S integration below)
     just              # task runner (see justfile)
+    expect            # scripted ssh helpers (was system /usr/bin/expect)
   ];
 
   # PATH additions for self-managed tools (uv, opencode, pipx)
