@@ -12,7 +12,8 @@ settings; Homebrew (driven by nix-darwin) installs GUI casks + Mac App Store app
 - **Secrets stay out of git:** 1Password SSH agent + `op`; the repo holds only public keys and `op://` references, so it's safe to publish.
 - **Signed, verified commits** with the 1Password SSH key.
 - **Declarative macOS:** Dock, Finder, keyboard, fonts, screenshots, Touch-ID-for-sudo (works in tmux).
-- **Controlled updates:** versions pinned in `flake.lock`; a weekly GitHub Action PRs lockfile bumps; GC and Nix upgrades are automatic (Determinate).
+- **Controlled updates:** versions pinned in `flake.lock`; a weekly GitHub Action opens lockfile-bump PRs; GC and Nix upgrades are automatic (Determinate).
+- **CI build-check:** every push and pull request runs `nix flake check` + a full `darwin build` on GitHub Actions, so changes (and those lockfile PRs) are proven to build before they reach the machine.
 
 ## Layout
 | File | Owns |
