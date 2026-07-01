@@ -4,6 +4,11 @@
   lib,
   ...
 }:
+let
+  # Personal ed25519 public key (1Password holds the private half); used for
+  # commit signing and GitHub ssh auth.
+  gmPubKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzFQh0nnBHOEBWajMx0+etRRivHNsa+B0LJ6BTaZzRM";
+in
 {
   home.username = "gm";
   home.homeDirectory = "/Users/gm";
@@ -100,7 +105,7 @@
     # SSH commit signing via 1Password (op-ssh-sign).
     signing = {
       format = "ssh";
-      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzFQh0nnBHOEBWajMx0+etRRivHNsa+B0LJ6BTaZzRM";
+      key = gmPubKey;
       signByDefault = true;
       signer = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
     };
@@ -143,7 +148,16 @@
       ServerAliveCountMax = 6;
       TCPKeepAlive = "yes";
     };
+    # Pin the personal key for github.com so the agent never offers another
+    # account's key first; work github goes through an alias in config.local.
+    settings."github.com" = {
+      IdentitiesOnly = "yes";
+      IdentityFile = "~/.ssh/github-thisisgm.pub";
+    };
   };
+
+  # Public half of the pinned GitHub auth key (private half stays in 1Password).
+  home.file.".ssh/github-thisisgm.pub".text = "${gmPubKey}\n";
 
   # Vendored configs. Ghostty → Application Support (that path wins over ~/.config on macOS).
   home.file."Library/Application Support/com.mitchellh.ghostty/config".source =
@@ -162,8 +176,7 @@
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-darwin-config/dotfiles/nvim";
 
   # Local verification of my ssh-signed commits.
-  home.file.".config/git/allowed_signers".text =
-    "gianmarcomorales@icloud.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzFQh0nnBHOEBWajMx0+etRRivHNsa+B0LJ6BTaZzRM\n";
+  home.file.".config/git/allowed_signers".text = "gianmarcomorales@icloud.com ${gmPubKey}\n";
 
   # Ensure runtime dirs exist.
   home.activation.mkRuntimeDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
