@@ -44,8 +44,8 @@ case "$title" in
     ;;
 esac
 
-if ! pw="$(op read "$GHOSTTY_SUDO_OP_REF" 2>/dev/null)" || [ -z "$pw" ]; then
-  note "op read failed (unlock 1Password / check item ref)"
+if ! pw="$("$HOME/.local/bin/op-cached" "$GHOSTTY_SUDO_OP_REF" 2>/dev/null)" || [ -z "$pw" ]; then
+  note "op-cached failed (unlock 1Password / check item ref)"
   exit 1
 fi
 

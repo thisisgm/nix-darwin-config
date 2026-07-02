@@ -171,6 +171,14 @@ in
     executable = true;
   };
 
+  # `op read` wrapper with a login-Keychain cache: one Touch ID per work
+  # session instead of one per read (op ties auth to a tty session; scripts
+  # and agents have none). Everything here pulls secrets through this.
+  home.file.".local/bin/op-cached" = {
+    source = ./dotfiles/op-cached.sh;
+    executable = true;
+  };
+
   # nvim (LazyVim): out-of-store symlink so it stays editable and lazy.nvim can write lazy-lock.json.
   xdg.configFile."nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-darwin-config/dotfiles/nvim";

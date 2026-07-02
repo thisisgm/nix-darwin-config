@@ -23,8 +23,9 @@ rollback:
 generations:
     darwin-rebuild --list-generations
 
+# op-cached = `op read` + login-Keychain cache: one Touch ID per session, not per read.
 # example: pull a file-secret from 1Password (edit the op:// ref + output path)
 secret:
-    op read "op://Private/<item>/<field>" > ~/.config/<app>/<file>
+    umask 077; { ~/.local/bin/op-cached "op://Private/<item>/<field>"; echo; } > ~/.config/<app>/<file>
 
 # GC is automatic (Determinate); force one with: nh clean all --keep 5 --keep-since 7d

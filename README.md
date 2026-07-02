@@ -11,7 +11,7 @@ settings; Homebrew (driven by nix-darwin) installs GUI casks + Mac App Store app
 
 ## Highlights
 - **One command rebuilds the machine:** `nh darwin switch` (diff + confirm before activating).
-- **Secrets stay out of git:** 1Password SSH agent + `op`; the repo holds only public keys and `op://` references, so it's safe to publish.
+- **Secrets stay out of git:** 1Password SSH agent + `op`; the repo holds only public keys and `op://` references, so it's safe to publish. Scripts read secrets through `op-cached` (a vendored `op read` wrapper that caches in the login Keychain), so a work session costs one Touch ID, not one per read.
 - **Signed, verified commits** with the 1Password SSH key.
 - **Declarative macOS:** Dock, Finder, keyboard, fonts, screenshots, Touch-ID-for-sudo (works in tmux).
 - **Controlled updates:** versions pinned in `flake.lock`; a weekly GitHub Action opens lockfile-bump PRs; GC and Nix upgrades are automatic (Determinate).
