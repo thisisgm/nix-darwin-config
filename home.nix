@@ -52,6 +52,11 @@ in
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
+    shellAliases = {
+      # Claude Code — drop into the Ultra repo with project context loaded.
+      ultra = "cd ~/Desktop/ultra && claude";
+    };
+
     # Custom bits no module covers: login banner, pet, transient prompt.
     initContent = ''
       if [[ -o interactive && -t 1 ]] && command -v fastfetch >/dev/null; then
