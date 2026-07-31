@@ -20,6 +20,7 @@ in
     fastfetch
     ffmpeg
     gh
+    mosh # smooth TUI animation over ssh: local prediction, adaptive frame rate
     mtr
     neovim # config vendored in dotfiles/nvim (symlinked below)
     nodejs
@@ -38,6 +39,7 @@ in
     pet # snippet manager (zsh Ctrl+S below)
     just
     expect # for the scripted ssh helper scripts
+    yt-dlp # YouTube source for the last30days research skill
   ];
 
   # PATH for self-managed tools (uv, opencode, pipx).
